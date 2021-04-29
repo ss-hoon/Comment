@@ -13,6 +13,9 @@
 		<!-- 제이쿼리와 부트스트랩 설정 -->
 		<jsp:include page="/WEB-INF/views/header.jsp" />
 		
+		<!-- JavaScript 로드 -->
+		<script src="/js/main.js" type="text/javascript"></script>
+		
 		<!-- CSS 적용 -->
 		<link rel="stylesheet" href="/css/mainStyle.css">
 		
