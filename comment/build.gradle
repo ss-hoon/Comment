@@ -25,6 +25,7 @@ dependencies {
 	compileOnly 'org.apache.tomcat.embed:tomcat-embed-jasper'
 	compileOnly 'javax.servlet:jstl'
 	compileOnly 'org.projectlombok:lombok'
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	runtimeOnly 'mysql:mysql-connector-java'
 	annotationProcessor 'org.projectlombok:lombok'
 	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
