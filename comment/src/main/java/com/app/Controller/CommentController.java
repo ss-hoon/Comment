@@ -79,6 +79,7 @@ public class CommentController {
 		return response;
 	}
 	
+	/* Modal 페이지 */
 	@RequestMapping("/modal")
 	public String modal() {
 		return "modal";
