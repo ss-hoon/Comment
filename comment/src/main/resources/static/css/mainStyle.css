@@ -10,7 +10,12 @@ h1 {
 	margin-left: 50px;
 }
 
-.btnNormalCommentWrite,
-th {
+.btnNormalCommentWrite {
 	text-align: center;
+}
+
+ul,
+li {
+	list-style: none;
+	padding-left: 0px;
 }
