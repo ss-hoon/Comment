@@ -22,6 +22,8 @@
 		<title>댓글</title>
 	</head>
 	<body>
+		<!-- Modal 창 -->
+		<div id="modalArea"></div>
 	
 		<!-- 제목 -->
 		<h1>댓글 목록</h1>

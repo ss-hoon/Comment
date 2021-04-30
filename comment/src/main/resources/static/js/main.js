@@ -12,15 +12,19 @@ $(document).ready(function(){
 				var tag = "";
 				$(data).each(function(){
 					tag += "<hr>";
-					tag += "<li>"
-					tag += "<p>" + this.contents + "</p>";
-					tag += "<p>" + this.userId + "</p>";
+					tag += "<li data-commentIdx='" + this.idx + "' class='commentList'>"
+					tag += "<p class='commentText'>" + this.contents + "</p>";
+					tag += "<p class='commentWriter'>" + this.userId + "</p>";
 					tag += "<p>" + this.createdDate + "</p>";
-					tag += "</li>";
+					tag += "<button class='btn btn-xs btn-success' data-toggle='modal' data-target='#modifyModal'>수정</button>"
+					tag += "</li>"; 
 					tag += "<hr>";
 				});
 				
 				$("#comments").html(tag);
+				
+				/* Modal 창 로드 */
+				$("#modalArea").load("/modal");
 				
 			},
 			error : function(){
@@ -66,4 +70,19 @@ $(document).ready(function(){
 		
 	});
 	
+	$("#comments").on("click", ".commentList button", function(){
+		var comment = $(this).parent();
+		
+		var commentIdx = comment.attr("data-commentIdx");
+		var commentText = comment.find(".commentText").text();
+		var commentWriter = comment.find(".commentWriter").text();
+		
+		console.log(commentIdx);
+		console.log(commentText);
+		console.log(commentWriter);
+		
+		$("#commentIdx").val(commentIdx);
+		$("#commentText").val(commentText);
+		$("#commentWriter").val(commentWriter);
+	});
 });

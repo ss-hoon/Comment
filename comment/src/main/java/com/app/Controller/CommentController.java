@@ -59,4 +59,9 @@ public class CommentController {
 		
 		return response;
 	}
+	
+	@RequestMapping("/modal")
+	public String modal() {
+		return "modal";
+	}
 }
