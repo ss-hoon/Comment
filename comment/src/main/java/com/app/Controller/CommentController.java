@@ -60,6 +60,25 @@ public class CommentController {
 		return response;
 	}
 	
+	/* 댓글 수정 */
+	@RequestMapping("/update")
+	@ResponseBody
+	public int updateComment(@RequestBody Comment comment) {
+		log.info("location : '/update'");
+		
+		/* update에 성공하면 1 */
+		/* update에 실패하면 0 */
+		int response = commentService.updateComment(comment);
+		
+		if(response != 0) {
+			log.info("댓글 수정 성공");
+		} else {
+			log.info("댓글 수정 실패");
+		}
+		
+		return response;
+	}
+	
 	@RequestMapping("/modal")
 	public String modal() {
 		return "modal";

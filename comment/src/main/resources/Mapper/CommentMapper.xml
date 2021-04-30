@@ -33,4 +33,14 @@
    			);
    		</insert>
    		
+   		<!-- 댓글 수정 -->
+   		<update id="updateComment">
+   			UPDATE
+   				COMMENT
+   			SET
+   				CONTENTS = #{contents},
+   				UPDATED_DATE = NOW()
+   			WHERE
+   				IDX = #{idx}
+   		</update>
    </mapper>

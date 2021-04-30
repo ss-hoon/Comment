@@ -24,4 +24,9 @@ public class CommentService {
 	public int insertComment(Comment comment) {
 		return commentMapper.insertComment(comment);
 	}
+	
+	/* 댓글 수정 */
+	public int updateComment(Comment comment) {
+		return commentMapper.updateComment(comment);
+	}
 }
