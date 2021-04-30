@@ -78,8 +78,8 @@ $(document).ready(function(){
 		var commentText = comment.find(".commentText").text();
 		var commentWriter = comment.find(".commentWriter").text();
 		
-		$("#commentIdx").val(commentIdx);
-		$("#commentText").val(commentText);
-		$("#commentWriter").val(commentWriter);
+		$("#commentModifyIdx").val(commentIdx);
+		$("#commentModifyText").val(commentText);
+		$("#commentModifyWriter").val(commentWriter);
 	});
 });

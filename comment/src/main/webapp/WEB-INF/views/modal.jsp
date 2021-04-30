@@ -18,20 +18,20 @@
 				
 				<!-- 댓글 번호 input -->
 			    <div class="form-group">
-			        <label for="commentIdx">댓글 번호</label>
-			        <input class="form-control" id="commentIdx" name="commentIdx" readonly>
+			        <label for="commentModifyIdx">댓글 번호</label>
+			        <input class="form-control" id="commentModifyIdx" name="commentModifyIdx" readonly>
 			    </div>
 			    
 			    <!-- 댓글 내용 input -->
 			    <div class="form-group">
-			        <label for="commentText">댓글 내용</label>
-			        <input class="form-control" id="commentText" name="commentText" placeholder="댓글 내용을 입력해주세요">
+			        <label for="commentModifyText">댓글 내용</label>
+			        <input class="form-control" id="commentModifyText" name="commentModifyText" placeholder="댓글 내용을 입력해주세요">
 			    </div>
 			    
 			    <!-- 댓글 작성자 input -->
 			    <div class="form-group">
-			        <label for="commentWriter">댓글 작성자</label>
-			        <input class="form-control" id="commentWriter" name="commentWriter" readonly>
+			        <label for="commentModifyWriter">댓글 작성자</label>
+			        <input class="form-control" id="commentModifyWriter" name="commentModifyWriter" readonly>
 			    </div>
 			    
 	    	</div>
