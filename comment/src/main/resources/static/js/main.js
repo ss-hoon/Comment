@@ -70,16 +70,13 @@ $(document).ready(function(){
 		
 	});
 	
+	/* 수정 버튼을 눌렀을 때의 이벤트 */
 	$("#comments").on("click", ".commentList button", function(){
 		var comment = $(this).parent();
 		
 		var commentIdx = comment.attr("data-commentIdx");
 		var commentText = comment.find(".commentText").text();
 		var commentWriter = comment.find(".commentWriter").text();
-		
-		console.log(commentIdx);
-		console.log(commentText);
-		console.log(commentWriter);
 		
 		$("#commentIdx").val(commentIdx);
 		$("#commentText").val(commentText);

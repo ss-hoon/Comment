@@ -39,8 +39,8 @@
 			<!-- Modal Footer -->
 			<div class="modal-footer">
 			    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">닫기</button>
-			    <button type="button" class="btn btn-success modalModBtn">수정</button>
-			    <button type="button" class="btn btn-danger modalDelBtn">삭제</button>
+			    <button type="button" class="btn btn-success btnModalModify">수정</button>
+			    <button type="button" class="btn btn-danger btnModalDelete">삭제</button>
 			</div>
 		
 		</div>
