@@ -1,0 +1,80 @@
+-- MySQL Workbench Forward Engineering
+
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
+
+-- -----------------------------------------------------
+-- Schema mydb
+-- -----------------------------------------------------
+-- -----------------------------------------------------
+-- Schema comment
+-- -----------------------------------------------------
+
+-- -----------------------------------------------------
+-- Schema comment
+-- -----------------------------------------------------
+CREATE SCHEMA IF NOT EXISTS `comment` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci ;
+USE `comment` ;
+
+-- -----------------------------------------------------
+-- Table `comment`.`comment`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `comment`.`comment` (
+  `idx` INT NOT NULL AUTO_INCREMENT,
+  `contents` VARCHAR(100) NOT NULL,
+  `parent` INT NULL DEFAULT NULL,
+  `depth` INT NOT NULL DEFAULT '0',
+  `order` INT NOT NULL DEFAULT '0',
+  `user_id` VARCHAR(45) NOT NULL,
+  `created_date` DATETIME NOT NULL,
+  `updated_date` DATETIME NULL DEFAULT NULL,
+  `deleted` CHAR(1) NOT NULL DEFAULT 'N',
+  PRIMARY KEY (`idx`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 17
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+USE `comment` ;
+
+-- -----------------------------------------------------
+-- function hieararchial_board
+-- -----------------------------------------------------
+
+DELIMITER $$
+USE `comment`$$
+CREATE DEFINER=`root`@`localhost` FUNCTION `hieararchial_board`() RETURNS int
+    READS SQL DATA
+BEGIN
+    DECLARE v_id INT;
+    DECLARE v_parent INT;
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET @comment_id = NULL;
+    SET v_parent = @comment_id;
+    SET v_id = -1;
+    IF @comment_id IS NULL THEN
+        RETURN NULL;
+    END IF;
+    LOOP
+    SELECT MIN(comment_id)
+      INTO @comment_id
+      FROM COMMENT
+     WHERE super_comment_id = v_parent
+       AND comment_id > v_id;
+    IF (@comment_id IS NOT NULL) OR (v_parent = @start_with) THEN
+       SET @level = @level + 1;
+    RETURN @comment_id;
+    END IF;
+    SET @level := @level - 1;
+    SELECT comment_id, super_comment_id
+      INTO v_id , v_parent
+      FROM COMMENT
+     WHERE comment_id = v_parent;
+    END LOOP;
+END$$
+
+DELIMITER ;
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
