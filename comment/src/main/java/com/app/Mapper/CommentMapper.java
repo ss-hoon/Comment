@@ -18,4 +18,7 @@ public interface CommentMapper {
 	
 	/* 댓글 수정 */
 	int updateComment(Comment comment);
+	
+	/* 댓글 삭제 */
+	int deleteComment(Comment comment);
 }

@@ -29,4 +29,9 @@ public class CommentService {
 	public int updateComment(Comment comment) {
 		return commentMapper.updateComment(comment);
 	}
+	
+	/* 댓글 삭제 */
+	public int deleteComment(Comment comment) {
+		return commentMapper.deleteComment(comment);
+	}
 }

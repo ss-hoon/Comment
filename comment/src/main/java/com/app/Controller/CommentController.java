@@ -79,6 +79,25 @@ public class CommentController {
 		return response;
 	}
 	
+	/* 댓글 삭제 */
+	@RequestMapping("/delete")
+	@ResponseBody
+	public int deleteComment(@RequestBody Comment comment) {
+		log.info("location : '/delete'");
+		
+		/* delete에 성공하면 1 */
+		/* delete에 실패하면 0 */
+		int response = commentService.deleteComment(comment); 
+		
+		if(response != 0) {
+			log.info("댓글 삭제 성공");
+		} else {
+			log.info("댓글 삭제 실패");
+		}
+		
+		return response;
+	}
+	
 	/* Modal 페이지 */
 	@RequestMapping("/modal")
 	public String modal() {

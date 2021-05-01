@@ -111,9 +111,42 @@ $(document).ready(function(){
 				if(data == 1){
 					alert("수정 성공");
 					$("#modifyModal").modal("hide"); // Modal 닫기
-					getAllList(); // 전체 댓글 목록 불러오기
+					location.href = '';
 				} else {
 					alert("수정 실패");
+				}
+			},
+			error : function(){
+				alert("통신 오류");
+			}
+		});
+	});
+	
+	/* 수정 Modal 페이지 내 삭제 버튼을 눌렀을 때의 이벤트 */
+	$("#modalArea").on("click", ".btnModifyModalDelete", function(){
+		
+		/* comment == .modal-body */
+		var comment = $(this).parent().prev();
+		
+		/* 삭제할 게시글의 기본키인 idx만 담아 객체 생성 */
+		var param = {
+			"idx" : comment.find("#commentModifyModalIdx").val()
+		}
+		
+		/* param 객체를 JSON 문자열로 변환하여 AJAX 통신 -> delete 성공 여부 판단 */
+		$.ajax({
+			url : "/delete",
+			type : "POST",
+			contentType : "application/json; charset=UTF-8",
+			data : JSON.stringify(param),
+			dataType : "json",
+			success : function(data){
+				if(data == 1){
+					alert("삭제 성공");
+					$("#modifyModal").modal("hide"); // Modal 닫기
+					location.href = '';
+				} else {
+					alert("삭제 실패");
 				}
 			},
 			error : function(){
