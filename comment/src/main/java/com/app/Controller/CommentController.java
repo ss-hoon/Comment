@@ -4,6 +4,11 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -30,7 +35,7 @@ public class CommentController {
 	}
 	
 	/* 댓글 목록 검색 */
-	@RequestMapping("/select")
+	@GetMapping("/select")
 	@ResponseBody
 	public List<Comment> selectComment() {
 		log.info("location : '/select'");
@@ -42,7 +47,7 @@ public class CommentController {
 	}
 	
 	/* 댓글 추가 */
-	@RequestMapping("/insert")
+	@PostMapping("/insert")
 	@ResponseBody
 	public int insertComment(@RequestBody Comment comment) {
 		log.info("location : '/insert'");
@@ -61,7 +66,7 @@ public class CommentController {
 	}
 	
 	/* 댓글 수정 */
-	@RequestMapping("/update")
+	@PutMapping("/update")
 	@ResponseBody
 	public int updateComment(@RequestBody Comment comment) {
 		log.info("location : '/update'");
@@ -80,14 +85,14 @@ public class CommentController {
 	}
 	
 	/* 댓글 삭제 */
-	@RequestMapping("/delete")
+	@DeleteMapping("/delete/{idx}")
 	@ResponseBody
-	public int deleteComment(@RequestBody Comment comment) {
+	public int deleteComment(@PathVariable int idx) {
 		log.info("location : '/delete'");
 		
 		/* delete에 성공하면 1 */
 		/* delete에 실패하면 0 */
-		int response = commentService.deleteComment(comment); 
+		int response = commentService.deleteComment(idx); 
 		
 		if(response != 0) {
 			log.info("댓글 삭제 성공");
@@ -98,9 +103,15 @@ public class CommentController {
 		return response;
 	}
 	
-	/* Modal 페이지 */
-	@RequestMapping("/modal")
-	public String modal() {
-		return "modal";
+	/* 수정 Modal 페이지 */
+	@RequestMapping("/modifyModal")
+	public String modifyModal() {
+		return "modifyModal";
+	}
+	
+	/* 대댓글 Modal 페이지 */
+	@RequestMapping("/insertModal")
+	public String insertModal() {
+		return "insertModal";
 	}
 }

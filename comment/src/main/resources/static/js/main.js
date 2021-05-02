@@ -2,7 +2,7 @@
 function getAllList(){
 	$.ajax({
 		url : "/select",
-		type : "POST",
+		type : "GET",
 		contentType : "application/json; charset=UTF-8",
 		dataType : "json",
 		success : function(data){		
@@ -15,15 +15,13 @@ function getAllList(){
 				tag += "<p class='commentText'>" + this.contents + "</p>";
 				tag += "<p class='commentWriter'>" + this.userId + "</p>";
 				tag += "<p>" + this.createdDate + "</p>";
-				tag += "<button class='btn btn-xs btn-success' data-toggle='modal' data-target='#modifyModal'>수정</button>"
-				tag += "</li>"; 
-				tag += "<hr>";
+				tag += "<button class='btn btn-xs btn-success' id='btnModifyModal' data-toggle='modal' data-target='#modifyModal'>수정</button>"
+				tag += "&nbsp;"
+				tag += "<button class='btn btn-xs btn-primary' id='btnInsertModal' data-toggle='modal' data-target='#insertModal'>답글</button>"
+				tag += "</li>";
 			});
 			
 			$("#comments").html(tag);
-			
-			/* Modal 창 로드 */
-			$("#modalArea").load("/modal");
 			
 		},
 		error : function(){
@@ -36,6 +34,12 @@ $(document).ready(function(){
 	
 	/* 초기 댓글 목록 select */
 	getAllList();
+	
+	/* 수정 Modal 창 로드 */
+	$("#modifyModalArea").load("/modifyModal");
+	
+	/* 대댓글 작성 Modal 창 로드 */
+	$("#insertModalArea").load("/insertModal");
 	
 	/* 댓글 작성 버튼을 눌렀을 때의 이벤트 */
 	$("#btnWrite").click(function(){
@@ -74,7 +78,7 @@ $(document).ready(function(){
 	});
 	
 	/* 수정 버튼을 눌렀을 때의 이벤트 */
-	$("#comments").on("click", ".commentList button", function(){
+	$("#comments").on("click", ".commentList #btnModifyModal", function(){
 		
 		/* 클릭한 수정 버튼이 속한 li 요소를 가리킴 */
 		var comment = $(this).parent();
@@ -86,6 +90,17 @@ $(document).ready(function(){
 		$("#commentModifyModalIdx").val(commentIdx);
 		$("#commentModifyModalText").val(commentText);
 		$("#commentModifyModalWriter").val(commentWriter);
+	});
+	
+	/* 답글 버튼을 눌렀을 때의 이벤트 */
+	$("#comments").on("click", ".commentList #btnInsertModal", function(){
+		
+		/* 클릭한 수정 버튼이 속한 li 요소를 가리킴 */
+		var comment = $(this).parent();
+		
+		var commentIdx = comment.attr("data-commentIdx");
+		
+		$("#commentInsertModalIdx").val(commentIdx);
 	});
 	
 	/* 수정 Modal 페이지 내 수정 버튼을 눌렀을 때의 이벤트 */
@@ -103,7 +118,7 @@ $(document).ready(function(){
 		/* param 객체를 JSON 문자열로 변환하여 AJAX 통신 -> update 성공 여부 판단 */
 		$.ajax({
 			url : "/update",
-			type : "POST",
+			type : "PUT",
 			contentType : "application/json; charset=UTF-8",
 			data : JSON.stringify(param),
 			dataType : "json",
@@ -124,19 +139,11 @@ $(document).ready(function(){
 	
 	/* 수정 Modal 페이지 내 삭제 버튼을 눌렀을 때의 이벤트 */
 	$("#modalArea").on("click", ".btnModifyModalDelete", function(){
-		
-		/* comment == .modal-body */
-		var comment = $(this).parent().prev();
-		
-		/* 삭제할 게시글의 기본키인 idx만 담아 객체 생성 */
-		var param = {
-			"idx" : comment.find("#commentModifyModalIdx").val()
-		}
-		
+
 		/* param 객체를 JSON 문자열로 변환하여 AJAX 통신 -> delete 성공 여부 판단 */
 		$.ajax({
-			url : "/delete",
-			type : "POST",
+			url : "/delete/" + $("#commentModifyModalIdx").val(),
+			type : "DELETE",
 			contentType : "application/json; charset=UTF-8",
 			data : JSON.stringify(param),
 			dataType : "json",

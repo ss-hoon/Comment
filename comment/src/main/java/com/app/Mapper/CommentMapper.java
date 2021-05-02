@@ -20,5 +20,5 @@ public interface CommentMapper {
 	int updateComment(Comment comment);
 	
 	/* 댓글 삭제 */
-	int deleteComment(Comment comment);
+	int deleteComment(int idx);
 }

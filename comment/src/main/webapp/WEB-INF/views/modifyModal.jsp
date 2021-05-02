@@ -19,19 +19,19 @@
 				<!-- 댓글 번호 input -->
 			    <div class="form-group">
 			        <label for="commentModifyModalIdx">댓글 번호</label>
-			        <input class="form-control" id="commentModifyModalIdx" name="commentModifyModalIdx" readonly>
+			        <input class="form-control" id="commentModifyModalIdx" name="commentModifyModalIdx" readonly/>
 			    </div>
 			    
 			    <!-- 댓글 내용 input -->
 			    <div class="form-group">
 			        <label for="commentModifyModalText">댓글 내용</label>
-			        <input class="form-control" id="commentModifyModalText" name="commentModifyModalText" placeholder="댓글 내용을 입력해주세요">
+			        <input class="form-control" id="commentModifyModalText" name="commentModifyModalText" placeholder="댓글 내용을 입력해주세요"/>
 			    </div>
 			    
 			    <!-- 댓글 작성자 input -->
 			    <div class="form-group">
 			        <label for="commentModifyModalWriter">댓글 작성자</label>
-			        <input class="form-control" id="commentModifyModalWriter" name="commentModifyModalWriter" readonly>
+			        <input class="form-control" id="commentModifyModalWriter" name="commentModifyModalWriter" readonly/>
 			    </div>
 			    
 	    	</div>

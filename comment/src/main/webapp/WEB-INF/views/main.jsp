@@ -22,8 +22,11 @@
 		<title>댓글</title>
 	</head>
 	<body>
-		<!-- Modal 창 -->
-		<div id="modalArea"></div>
+		<!-- 수정 Modal 창 -->
+		<div id="modifyModalArea"></div>
+		
+		<!-- 대댓글 작성 Modal 창 -->
+		<div id="insertModalArea"></div>
 	
 		<!-- 제목 -->
 		<h1>댓글 목록</h1>
