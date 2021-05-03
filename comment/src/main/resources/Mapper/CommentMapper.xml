@@ -23,11 +23,13 @@
    			INTO
    				COMMENT(
    					CONTENTS,
+   					PARENT,
    					USER_ID,
    					CREATED_DATE
    				)
    			VALUES(
    				#{contents},
+   				LAST_INSERT_ID() + 1,
    				#{userId},
    				now()
    			);
