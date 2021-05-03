@@ -7,11 +7,15 @@ function getAllList(){
 		dataType : "json",
 		success : function(data){		
 					
-			/* 요청해서 받은 댓글 목록을 통해 동적으로 HTML 생성 */
+			/* 요청해서 받은 댓글 목록을 통해 동적 태그 생성 */
 			var tag = "";
 			$(data).each(function(){
+				
+				var space = this.depth * 20;
+				
 				tag += "<hr>";
-				tag += "<li data-commentIdx='" + this.idx + "' class='commentList'>"
+				tag += "<div class='commentElement' style='margin-left: " + space + "px'>";
+				tag += "<li data-commentIdx='" + this.idx + "'>";
 				tag += "<p class='commentText'>" + this.contents + "</p>";
 				tag += "<p class='commentWriter'>" + this.userId + "</p>";
 				tag += "<p>" + this.createdDate + "</p>";
@@ -19,8 +23,11 @@ function getAllList(){
 				tag += "&nbsp;"
 				tag += "<button class='btn btn-xs btn-primary' id='btnInsertModal' data-toggle='modal' data-target='#insertModal'>답글</button>"
 				tag += "</li>";
+				tag += "</div>";
+				
 			});
 			
+			/* 만든 태그를 해당 div에 삽입 */
 			$("#comments").html(tag);
 			
 		},
