@@ -17,6 +17,9 @@
 			<div class="modal-body">
 				<div>
 					<input type="hidden" id="commentInsertModalIdx" name="commentInsertModalIdx"/>
+					<input type="hidden" id="commentInsertModalParent" name="commentInsertModalParent"/>
+					<input type="hidden" id="commentInsertModalDepth" name="commentInsertModalDepth"/>
+					<input type="hidden" id="commentInsertModalOrder" name="commentInsertModalOrder"/>
 				</div>
 			    
 			    <!-- 댓글 내용 input -->

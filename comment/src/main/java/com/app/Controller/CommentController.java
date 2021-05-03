@@ -23,95 +23,83 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("")
 @Slf4j
 public class CommentController {
-	
+
 	@Autowired
 	private CommentService commentService;
-	
+
 	/* main 화면으로 이동 */
 	@RequestMapping("")
 	public String main() {
 		log.info("location : ''");
 		return "main";
 	}
-	
+
 	/* 댓글 목록 검색 */
 	@GetMapping("/select")
 	@ResponseBody
 	public List<Comment> selectComment() {
 		log.info("location : '/select'");
-		
+
 		List<Comment> retCommentList = commentService.selectComment();
 		log.info("Comment : {}", retCommentList);
-		
+
 		return retCommentList;
 	}
-	
+
 	/* 댓글 추가 */
 	@PostMapping("/insert")
 	@ResponseBody
 	public int insertComment(@RequestBody Comment comment) {
 		log.info("location : '/insert'");
-		
+
 		/* insert에 성공하면 1 */
 		/* insert에 실패하면 0 */
 		int response = commentService.insertComment(comment);
-		
-		if(response != 0) {
+
+		if (response != 0) {
 			log.info("댓글 추가 성공");
 		} else {
 			log.info("댓글 추가 실패");
 		}
-		
+
 		return response;
 	}
-	
+
 	/* 댓글 수정 */
 	@PutMapping("/update")
 	@ResponseBody
 	public int updateComment(@RequestBody Comment comment) {
 		log.info("location : '/update'");
-		
+
 		/* update에 성공하면 1 */
 		/* update에 실패하면 0 */
 		int response = commentService.updateComment(comment);
-		
-		if(response != 0) {
+
+		if (response != 0) {
 			log.info("댓글 수정 성공");
 		} else {
 			log.info("댓글 수정 실패");
 		}
-		
+
 		return response;
 	}
-	
+
 	/* 댓글 삭제 */
 	@DeleteMapping("/delete/{idx}")
 	@ResponseBody
 	public int deleteComment(@PathVariable int idx) {
 		log.info("location : '/delete'");
-		
+
 		/* delete에 성공하면 1 */
 		/* delete에 실패하면 0 */
-		int response = commentService.deleteComment(idx); 
-		
-		if(response != 0) {
+		int response = commentService.deleteComment(idx);
+
+		if (response != 0) {
 			log.info("댓글 삭제 성공");
 		} else {
 			log.info("댓글 삭제 실패");
 		}
-		
+
 		return response;
-	}
-	
-	/* 수정 Modal 페이지 */
-	@RequestMapping("/modifyModal")
-	public String modifyModal() {
-		return "modifyModal";
-	}
-	
-	/* 대댓글 Modal 페이지 */
-	@RequestMapping("/insertModal")
-	public String insertModal() {
-		return "insertModal";
 	}
 }

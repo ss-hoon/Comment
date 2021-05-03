@@ -23,10 +23,14 @@
 	</head>
 	<body>
 		<!-- 수정 Modal 창 -->
-		<div id="modifyModalArea"></div>
+		<div id="modifyModalArea">
+			<jsp:include page="/WEB-INF/views/modifyModal.jsp" />
+		</div>
 		
 		<!-- 대댓글 작성 Modal 창 -->
-		<div id="insertModalArea"></div>
+		<div id="insertModalArea">
+			<jsp:include page="/WEB-INF/views/insertModal.jsp" />
+		</div>
 	
 		<!-- 제목 -->
 		<h1>댓글 목록</h1>
@@ -58,7 +62,7 @@
 			<!-- 댓글 목록 -->
 			<div class="commentList">
 			
-				<!-- AJAX로 비동기 통신하여 데이터를 받아오는 부분 -->
+				<!-- AJAX 통신으로 게시글을 받아오는 부분 -->
 				<ul id="comments">
 				
 				</ul>
