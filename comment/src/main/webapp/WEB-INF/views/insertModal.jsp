@@ -16,7 +16,6 @@
 			<!-- Modal Body -->
 			<div class="modal-body">
 				<div>
-					<input type="hidden" id="commentInsertModalIdx" name="commentInsertModalIdx"/>
 					<input type="hidden" id="commentInsertModalParent" name="commentInsertModalParent"/>
 					<input type="hidden" id="commentInsertModalDepth" name="commentInsertModalDepth"/>
 					<input type="hidden" id="commentInsertModalOrder" name="commentInsertModalOrder"/>
@@ -39,7 +38,7 @@
 			<!-- Modal Footer -->
 			<div class="modal-footer">
 			    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">닫기</button>
-			    <button type="button" class="btn btn-success btnInsertModalModify">작성</button>
+			    <button type="button" class="btn btn-success btnInsertModalWrite">작성</button>
 			</div>
 		
 		</div>

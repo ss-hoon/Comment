@@ -35,6 +35,85 @@
    			);
    		</insert>
    		
+   		<!-- order를 움직여야 하는지 확인 -->
+   		<select id="existOrder" parameterType="com.app.Domain.Comment" resultType="int">
+	   		SELECT EXISTS(
+		   		SELECT
+					COMMENT.ORDER - 1
+				FROM
+					COMMENT
+				WHERE
+					DELETED = 'N'
+				    AND COMMENT.ORDER &gt; #{order}
+				    AND DEPTH &lt;= #{depth}
+				ORDER BY
+					PARENT, COMMENT.ORDER
+				LIMIT 1
+	    	)
+   		</select>
+   		
+   		<!-- order를 움직이지 않는 경우 해당 parent의 맨마지막 order 반환 -->
+   		<select id="lastOrder" parameterType="int" resultType="int">
+   			SELECT
+				COMMENT.ORDER
+			FROM
+				COMMENT
+			WHERE
+				DELETED = 'N'
+			    AND PARENT = #{parent}
+			ORDER BY
+				COMMENT.ORDER DESC
+			LIMIT 1;
+   		</select>
+   		
+   		<!-- order를 움직여야 하는 경우 그 위치의 order 반환 -->
+   		<select id="getOrder" parameterType="com.app.Domain.Comment" resultType="int">
+   			SELECT
+				COMMENT.ORDER - 1
+			FROM
+				COMMENT
+			WHERE
+				DELETED = 'N'
+			    AND COMMENT.ORDER &gt; #{order}
+			    AND DEPTH &lt;= #{depth}
+			ORDER BY
+				PARENT, COMMENT.ORDER
+			LIMIT 1
+   		</select>
+   		
+   		<!-- 삽입할 곳 뒤에 있는 row의 order를 하나씩 뒤로 미는 작업 -->
+   		<update id="updateOrder" parameterType="com.app.Domain.Comment">
+   			UPDATE
+				COMMENT
+			SET
+				COMMENT.ORDER = COMMENT.ORDER + 1
+			WHERE
+				PARENT = #{parent}
+			    AND COMMENT.ORDER > #{order}
+   		</update>
+   		
+   		<!-- 해당 위치에 대댓글 추가 -->
+   		<insert id="nestedInsertComment">
+   			INSERT
+   			INTO
+   				COMMENT(
+   					PARENT,
+   					DEPTH,
+   					COMMENT.ORDER,
+   					CONTENTS,
+   					USER_ID,
+   					CREATED_DATE
+   				)
+   			VALUES(
+   				#{parent},
+   				#{depth} + 1,
+   				#{order} + 1,
+   				#{contents},
+   				#{userId},
+   				now()
+   			)
+   		</insert>
+   		
    		<!-- 댓글 수정 -->
    		<update id="updateComment">
    			UPDATE

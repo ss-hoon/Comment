@@ -151,7 +151,7 @@ $(document).ready(function(){
 	/* 수정 Modal 페이지 내 삭제 버튼을 눌렀을 때의 이벤트 */
 	$("#modifyModalArea").on("click", ".btnModifyModalDelete", function(){
 
-		/* param 객체를 JSON 문자열로 변환하여 AJAX 통신 -> delete 성공 여부 판단 */
+		/* URL 뒤에 삭제할 게시글의 idx를 삽입하여 AJAX 통신 -> delete 성공 여부 판단 */
 		$.ajax({
 			url : "/delete/" + $("#commentModifyModalIdx").val(),
 			type : "DELETE",
@@ -164,6 +164,40 @@ $(document).ready(function(){
 					location.href = '';
 				} else {
 					alert("삭제 실패");
+				}
+			},
+			error : function(){
+				alert("통신 오류");
+			}
+		});
+	});
+	
+	/* 대댓글 작성 Modal 페이지 내 작성 버튼을 눌렀을 때의 이벤트 */
+	$("#insertModalArea").on("click", ".btnInsertModalWrite", function(){
+				
+		/* parent, depth, order는 부모 댓글의 속성 그대로 */
+		var param = {
+			"contents" : $("#commentInsertModalText").val(),
+			"userId" : $("#commentInsertModalWriter").val(),
+			"parent" : $("#commentInsertModalParent").val(),
+			"depth" : $("#commentInsertModalDepth").val(),
+			"order" : $("#commentInsertModalOrder").val()
+		}
+
+		/* param 객체를 JSON 문자열로 변환하여 AJAX 통신 -> delete 성공 여부 판단 */
+		$.ajax({
+			url : "/nestedCommentInsert",
+			type : "POST",
+			contentType : "application/json; charset=UTF-8",
+			data : JSON.stringify(param),
+			dataType : "json",
+			success : function(data){
+				if(data == 1){
+					alert("작성 성공");
+					$("#modifyModal").modal("hide"); // Modal 닫기
+					location.href = '';
+				} else {
+					alert("작성 실패");
 				}
 			},
 			error : function(){

@@ -65,6 +65,38 @@ public class CommentController {
 		return response;
 	}
 
+	/* 대댓글 추가 */
+	@PostMapping("/nestedCommentInsert")
+	@ResponseBody
+	public int insertNestedComment(@RequestBody Comment comment) {
+		log.info("location : '/nestedCommentInsert'");
+
+		/* order를 움직여야 하는지 확인 */
+		int flag = commentService.existOrder(comment);
+
+		/* order를 움직여야 한다면 order를 찾아서 해당 위치보다 뒤에 있는 row를 하나씩 뒤로 민다 */
+		/* order를 움직이지 않아도 된다면 맨 마지막 order를 반환 */
+		if (flag != 0) {
+			int order = commentService.getOrder(comment);
+			comment.setOrder(order);
+			commentService.updateOrder(comment);
+		} else {
+			int order = commentService.lastOrder(comment.getParent());
+			comment.setOrder(order);
+		}
+		
+		/* order 위치에 대댓글 추가 */
+		int response = commentService.nestedInsertComment(comment);
+
+		if (response == 1) {
+			log.info("대댓글 삽입 성공");
+		} else {
+			log.info("대댓글 삽입 실패");
+		}
+
+		return response;
+	}
+
 	/* 댓글 수정 */
 	@PutMapping("/update")
 	@ResponseBody
