@@ -11,8 +11,6 @@
    				*
    			FROM
    				COMMENT
-   			WHERE
-   				DELETED = 'N'
    			ORDER BY
    				PARENT, COMMENT.ORDER;
    		</select>
@@ -43,8 +41,7 @@
 				FROM
 					COMMENT
 				WHERE
-					DELETED = 'N'
-				    AND COMMENT.ORDER &gt; #{order}
+				    COMMENT.ORDER &gt; #{order}
 				    AND DEPTH &lt;= #{depth}
 				ORDER BY
 					PARENT, COMMENT.ORDER
@@ -59,8 +56,7 @@
 			FROM
 				COMMENT
 			WHERE
-				DELETED = 'N'
-			    AND PARENT = #{parent}
+			    PARENT = #{parent}
 			ORDER BY
 				COMMENT.ORDER DESC
 			LIMIT 1;
@@ -73,8 +69,7 @@
 			FROM
 				COMMENT
 			WHERE
-				DELETED = 'N'
-			    AND COMMENT.ORDER &gt; #{order}
+			    COMMENT.ORDER &gt; #{order}
 			    AND DEPTH &lt;= #{depth}
 			ORDER BY
 				PARENT, COMMENT.ORDER
@@ -130,6 +125,8 @@
    			UPDATE
    				COMMENT
    			SET
+   				CONTENTS = '삭제된 게시물입니다',
+   				USER_ID = '찾을 수 없습니다',
    				DELETED = 'Y'
    			WHERE
    				IDX = #{idx}
