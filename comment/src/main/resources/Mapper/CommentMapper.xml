@@ -11,8 +11,22 @@
    				*
    			FROM
    				COMMENT
+   			WHERE
+   				DEPTH = 0
    			ORDER BY
    				PARENT, COMMENT.ORDER;
+   		</select>
+   		
+   		<select id="selectNestedComment" parameterType="int" resultType="com.app.Domain.Comment">
+   			SELECT
+				*
+			FROM
+				COMMENT
+			WHERE
+				PARENT = #{parent}
+			    AND COMMENT.ORDER &gt; 0
+			ORDER BY
+				COMMENT.ORDER;
    		</select>
    		
    		<!-- 댓글 추가 -->
@@ -41,7 +55,8 @@
 				FROM
 					COMMENT
 				WHERE
-				    COMMENT.ORDER &gt; #{order}
+					PARENT = #{parent}
+				    AND COMMENT.ORDER &gt; #{order}
 				    AND DEPTH &lt;= #{depth}
 				ORDER BY
 					PARENT, COMMENT.ORDER
@@ -69,7 +84,8 @@
 			FROM
 				COMMENT
 			WHERE
-			    COMMENT.ORDER &gt; #{order}
+				PARENT = #{parent}
+			    AND COMMENT.ORDER &gt; #{order}
 			    AND DEPTH &lt;= #{depth}
 			ORDER BY
 				PARENT, COMMENT.ORDER

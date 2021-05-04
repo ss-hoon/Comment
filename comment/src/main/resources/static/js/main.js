@@ -11,6 +11,49 @@ function getAllList(){
 			var tag = "";
 			$(data).each(function(){
 				
+				tag += "<hr>";
+				tag += "<div class='commentElement'>";
+				tag += "<li data-commentIdx='" + this.idx + "'>";
+				tag += "<p class='commentText'>" + this.contents + "</p>";
+				tag += "<p class='commentWriter'>" + this.userId + "</p>";
+				tag += "<p class='commentCreatedDate'>" + this.createdDate + "</p>";
+				tag += "<p class='commentParent' style='display:none'>" + this.parent + "</p>";
+				tag += "<p class='commentDepth' style='display:none'>" + this.depth + "</p>";
+				tag += "<p class='commentOrder' style='display:none'>" + this.order + "</p>";
+				tag += "<button class='btn btn-xs btn-success' id='btnModifyModal' data-toggle='modal' data-target='#modifyModal'>수정</button>";
+				tag += "&nbsp;";
+				tag += "<button class='btn btn-xs btn-primary' id='btnInsertModal' data-toggle='modal' data-target='#insertModal'>답글</button>";
+				tag += "<button class='btn btn-xs btn-default pull-right' id='btnDisplayNestedComment' >댓글 더보기</button>";
+				tag += "</li>";
+				tag += "<div class='nestedCommentList' style='display:block'></div>"
+				tag += "</div>";
+				
+			});
+			
+			/* 만든 태그를 해당 위치에 삽입 */
+			$("#comments").html(tag);
+			
+		},
+		error : function(){
+			alert("통신 오류");
+		}
+	});
+}
+
+/* AJAX 통신 -> 해당 그룹의 대댓글 전체 select */
+function getNestedCommentList(position, parent){
+	$.ajax({
+		url : "/selectNestedComment",
+		type : "GET",
+		contentType : "application/json; charset=UTF-8",
+		data : {"parent" : parent},
+		dataType : "json",
+		success : function(data){		
+					
+			/* 요청해서 받은 댓글 목록을 통해 동적 태그 생성 */
+			var tag = "";
+			$(data).each(function(){
+				
 				var space = this.depth * 20;
 				
 				tag += "<hr>";
@@ -22,22 +65,31 @@ function getAllList(){
 				tag += "<p class='commentParent' style='display:none'>" + this.parent + "</p>";
 				tag += "<p class='commentDepth' style='display:none'>" + this.depth + "</p>";
 				tag += "<p class='commentOrder' style='display:none'>" + this.order + "</p>";
-				tag += "<button class='btn btn-xs btn-success' id='btnModifyModal' data-toggle='modal' data-target='#modifyModal'>수정</button>"
-				tag += "&nbsp;"
-				tag += "<button class='btn btn-xs btn-primary' id='btnInsertModal' data-toggle='modal' data-target='#insertModal'>답글</button>"
+				tag += "<button class='btn btn-xs btn-success' id='btnModifyModal' data-toggle='modal' data-target='#modifyModal'>수정</button>";
+				tag += "&nbsp;";
+				tag += "<button class='btn btn-xs btn-primary' id='btnInsertModal' data-toggle='modal' data-target='#insertModal'>답글</button>";
 				tag += "</li>";
-				tag += "</div>";
+				tag += "</div>"
 				
 			});
 			
-			/* 만든 태그를 해당 div에 삽입 */
-			$("#comments").html(tag);
+			/* 만든 태그를 해당 위치에 삽입 */
+			$(position).html(tag);
 			
 		},
 		error : function(){
 			alert("통신 오류");
 		}
-	});
+	})
+}
+
+/* 대댓글 접기 */
+function emptyNestedCommentList(position){
+	
+	var tag = "";
+	
+	/* 만든 태그를 해당 위치에 삽입 */
+	$(position).html(tag);
 }
 
 $(document).ready(function(){
@@ -108,6 +160,8 @@ $(document).ready(function(){
 		var commentOrder = comment.find(".commentOrder").text();
 				
 		$("#commentInsertModalIdx").val(commentIdx);
+		$("#commentInsertModalText").val("");
+		$("#commentInsertModalWriter").val("");
 		$("#commentInsertModalParent").val(commentParent);
 		$("#commentInsertModalDepth").val(commentDepth);
 		$("#commentInsertModalOrder").val(commentOrder);
@@ -205,5 +259,22 @@ $(document).ready(function(){
 				alert("통신 오류");
 			}
 		});
+	});
+	
+	/* 댓글 더보기 버튼을 눌렀을 때의 이벤트 */
+	$("#comments").on("click", ".commentElement li #btnDisplayNestedComment", function(){
+		
+		var position = $(this).parent().parent().find(".nestedCommentList");
+		var parent = $(this).parent().find(".commentParent").text();
+		var buttonName = $(this).parent().find("#btnDisplayNestedComment").text();
+		
+		/* 대댓글 접기 기능 */
+		if(buttonName == "댓글 더보기"){
+			getNestedCommentList(position, parent);
+			$(this).parent().find("#btnDisplayNestedComment").text("댓글 숨기기");
+		} else {
+			emptyNestedCommentList(position);
+			$(this).parent().find("#btnDisplayNestedComment").text("댓글 더보기");
+		}
 	});
 });

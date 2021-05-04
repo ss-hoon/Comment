@@ -10,8 +10,11 @@ import com.app.Domain.Comment;
 @Mapper
 public interface CommentMapper {
 	
-	/* 댓글 목록 검색 */
+	/* 기본 댓글 목록 검색 */
 	List<Comment> selectComment();
+	
+	/* 대댓글 목록 검색 */
+	List<Comment> selectNestedComment(int parent);
 	
 	/* 댓글 추가 */
 	int insertComment(Comment comment);

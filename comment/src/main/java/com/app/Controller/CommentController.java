@@ -34,16 +34,28 @@ public class CommentController {
 		return "main";
 	}
 
-	/* 댓글 목록 검색 */
+	/* 기본 댓글 목록 검색 */
 	@GetMapping("/select")
 	@ResponseBody
 	public List<Comment> selectComment() {
 		log.info("location : '/select'");
 
-		List<Comment> retCommentList = commentService.selectComment();
-		log.info("Comment : {}", retCommentList);
+		List<Comment> commentList = commentService.selectComment();
+		log.info("Comment : {}", commentList);
 
-		return retCommentList;
+		return commentList;
+	}
+	
+	/* 대댓글 목록 검색 */
+	@GetMapping("/selectNestedComment")
+	@ResponseBody
+	public List<Comment> selectNestedComment(int parent){
+		log.info("location : 'selectNestedComment'");
+		
+		List<Comment> commentList = commentService.selectNestedComment(parent);
+		log.info("Nested Comment : {}", commentList);
+		
+		return commentList;
 	}
 
 	/* 댓글 추가 */
@@ -74,6 +86,7 @@ public class CommentController {
 		/* order를 움직여야 하는지 확인 */
 		int flag = commentService.existOrder(comment);
 
+		System.out.println(flag);
 		/* order를 움직여야 한다면 order를 찾아서 해당 위치보다 뒤에 있는 row를 하나씩 뒤로 민다 */
 		/* order를 움직이지 않아도 된다면 맨 마지막 order를 반환 */
 		if (flag != 0) {

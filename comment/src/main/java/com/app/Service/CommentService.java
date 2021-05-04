@@ -15,9 +15,14 @@ public class CommentService {
 	@Autowired
 	private CommentMapper commentMapper;
 	
-	/* 댓글 목록 검색 */
+	/* 기본 댓글 목록 검색 */
 	public List<Comment> selectComment() {
 		return commentMapper.selectComment();
+	}
+	
+	/* 대댓글 목록 검색 */
+	public List<Comment> selectNestedComment(int parent){
+		return commentMapper.selectNestedComment(parent);
 	}
 
 	/* 댓글 추가 */
