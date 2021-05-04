@@ -70,7 +70,7 @@ $(document).ready(function(){
 			success : function(data){
 				if(data == 1){
 					alert("작성 성공");
-					location.href = "";
+					getAllList();
 				} else {
 					alert("작성 실패");
 				}
@@ -137,7 +137,7 @@ $(document).ready(function(){
 				if(data == 1){
 					alert("수정 성공");
 					$("#modifyModal").modal("hide"); // Modal 닫기
-					location.href = '';
+					getAllList();
 				} else {
 					alert("수정 실패");
 				}
@@ -160,8 +160,8 @@ $(document).ready(function(){
 			success : function(data){
 				if(data == 1){
 					alert("삭제 성공");
+					getAllList();
 					$("#modifyModal").modal("hide"); // Modal 닫기
-					location.href = '';
 				} else {
 					alert("삭제 실패");
 				}
@@ -194,8 +194,9 @@ $(document).ready(function(){
 			success : function(data){
 				if(data == 1){
 					alert("작성 성공");
-					$("#modifyModal").modal("hide"); // Modal 닫기
-					location.href = '';
+					getAllList();
+					$("#insertModal").modal("hide"); // Modal 닫기
+					
 				} else {
 					alert("작성 실패");
 				}
