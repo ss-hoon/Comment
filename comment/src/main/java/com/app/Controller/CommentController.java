@@ -86,7 +86,6 @@ public class CommentController {
 		/* order를 움직여야 하는지 확인 */
 		int flag = commentService.existOrder(comment);
 
-		System.out.println(flag);
 		/* order를 움직여야 한다면 order를 찾아서 해당 위치보다 뒤에 있는 row를 하나씩 뒤로 민다 */
 		/* order를 움직이지 않아도 된다면 맨 마지막 order를 반환 */
 		if (flag != 0) {
