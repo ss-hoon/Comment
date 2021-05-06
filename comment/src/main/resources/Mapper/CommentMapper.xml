@@ -5,8 +5,18 @@
    <!-- 댓글 관련 Mapper 쿼리 작성 -->
    <mapper namespace = "com.app.Mapper.CommentMapper">   
    
+   		<!-- 기본 게시글 총 개수 검색 -->
+   		<select id="getTotalCommentCnt" resultType="int">
+   			SELECT
+   				COUNT(*)
+   			FROM
+   				COMMENT
+   			WHERE
+   				DEPTH = 0;
+   		</select>
+   
    		<!-- 댓글 목록 검색 -->
-   		<select id="selectComment" resultType="com.app.Domain.Comment">
+   		<select id="selectComment" parameterType="com.app.Domain.Comment" resultType="com.app.Domain.Comment">
    			SELECT
    				*
    			FROM

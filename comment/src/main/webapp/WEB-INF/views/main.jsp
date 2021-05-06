@@ -37,7 +37,7 @@
 		<hr>
 		
 		<div class="container">
-		
+			
 			<!-- 기본 댓글 내용 작성 -->
 			<div class="NormalCommentWriteContentsInput">
 				<div class="form-group">
@@ -64,8 +64,14 @@
 			
 				<!-- AJAX 통신으로 게시글을 받아오는 부분 -->
 				<ul id="comments">
-				
+					
 				</ul>
+				
+				<!-- Paging 버튼 -->
+				<div class="pagingArea">
+				
+				</div>
+				
 			</div>
 			
 		</div>

@@ -1,4 +1,4 @@
-/* AJAX 통신 -> 댓글의 전체 목록 select */
+/* AJAX 통신 -> 댓글의 전체 목록 select + Paging */
 function getAllList(){
 	$.ajax({
 		url : "/select",
@@ -7,31 +7,109 @@ function getAllList(){
 		dataType : "json",
 		success : function(data){		
 					
+			var commentTag = "";
+			
 			/* 요청해서 받은 댓글 목록을 통해 동적 태그 생성 */
-			var tag = "";
 			$(data).each(function(){
 				
-				tag += "<hr>";
-				tag += "<div class='commentElement'>";
-				tag += "<li data-commentIdx='" + this.idx + "'>";
-				tag += "<p class='commentText'>" + this.contents + "</p>";
-				tag += "<p class='commentWriter'>" + this.userId + "</p>";
-				tag += "<p class='commentCreatedDate'>" + this.createdDate + "</p>";
-				tag += "<p class='commentParent' style='display:none'>" + this.parent + "</p>";
-				tag += "<p class='commentDepth' style='display:none'>" + this.depth + "</p>";
-				tag += "<p class='commentOrder' style='display:none'>" + this.order + "</p>";
-				tag += "<button class='btn btn-xs btn-success' id='btnModifyModal' data-toggle='modal' data-target='#modifyModal'>수정</button>";
-				tag += "&nbsp;";
-				tag += "<button class='btn btn-xs btn-primary' id='btnInsertModal' data-toggle='modal' data-target='#insertModal'>답글</button>";
-				tag += "<button class='btn btn-xs btn-default pull-right' id='btnDisplayNestedComment' >댓글 더보기</button>";
-				tag += "</li>";
-				tag += "<div class='nestedCommentList' style='display:block'></div>"
-				tag += "</div>";
+				commentTag += "<hr>";
+				commentTag += "<div class='commentElement'>";
+				commentTag += "<li data-commentIdx='" + this.idx + "'>";
+				commentTag += "<p class='commentText'>" + this.contents + "</p>";
+				commentTag += "<p class='commentWriter'>" + this.userId + "</p>";
+				commentTag += "<p class='commentCreatedDate'>" + this.createdDate + "</p>";
+				commentTag += "<p class='commentParent' style='display:none'>" + this.parent + "</p>";
+				commentTag += "<p class='commentDepth' style='display:none'>" + this.depth + "</p>";
+				commentTag += "<p class='commentOrder' style='display:none'>" + this.order + "</p>";
+				commentTag += "<button class='btn btn-xs btn-success' id='btnModifyModal' data-toggle='modal' data-target='#modifyModal'>수정</button>";
+				commentTag += "&nbsp;";
+				commentTag += "<button class='btn btn-xs btn-primary' id='btnInsertModal' data-toggle='modal' data-target='#insertModal'>답글</button>";
+				commentTag += "<button class='btn btn-xs btn-default pull-right' id='btnDisplayNestedComment' >댓글 더보기</button>";
+				commentTag += "</li>";
+				commentTag += "<div class='nestedCommentList' style='display:block'></div>"
+				commentTag += "</div>";
 				
 			});
 			
 			/* 만든 태그를 해당 위치에 삽입 */
-			$("#comments").html(tag);
+			$(".commentList #comments").html(commentTag);
+			
+		},
+		error : function(){
+			alert("통신 오류");
+		}
+	});
+}
+
+function getPaging(page){
+	$.ajax({
+		url : "/paging?curPage=" + page,
+		type : "GET",
+		contentType : "application/json; charset=UTF-8",
+		dataType : "json",
+		success : function(data){		
+					
+			var pagingTag = "";
+			
+			/* 페이징 버튼 생성 */
+			$(data).each(function(){
+				
+				pagingTag += "<div class='paging text-center'>";
+				pagingTag += "<ul class='pagination'>";
+				
+				/* << 버튼(앞 페이지 이동 버튼) */
+				/* 현재 페이지가 첫번째 페이지인 경우에는 버튼을 사용할 수 없도록 함 */
+				if(this.curPage <= 1) {
+					pagingTag += "<li class='disabled'>";
+					pagingTag += "<span aria-hidden='true'>&laquo;</span>";
+					pagingTag += "</li>";
+				} else {
+					pagingTag += "<li>";
+					pagingTag += "<a class='page-link' onclick='getPaging(" + (page - 1) + ")' aria-label='Previous'>";
+					pagingTag += "<span aria-hidden='true'>&laquo;</span>";
+					pagingTag += "</a>";
+					pagingTag += "</li>";
+				}
+				
+				/* 페이지 버튼 */
+				/* 해당 버튼이 현재 페이지인 경우에는 active 시켜 현재 어디 페이지인지 알 수 있도록 함 */
+				for(var idx = this.startPage; idx <= this.endPage; idx ++){
+					
+					if(idx == this.curPage){
+						pagingTag += "<li class='page-item active'>";
+					} else {
+						pagingTag += "<li class='page-item'>";						
+					}
+					
+					pagingTag += "<a class='page-link' onclick='getPaging("+ idx + ")'>" + idx;
+					pagingTag += "</a>";
+					pagingTag += "</li>";
+				}
+				
+				
+				/* >> 버튼(뒷 페이지 이동 버튼) */
+				/* 현재 페이지가 마지막 페이지인 경우에는 버튼을 사용할 수 없도록 함 */
+				if(this.curPage >= this.totalPage) {
+					pagingTag += "<li class='disabled'>";
+					pagingTag += "<span aria-hidden='true'>&raquo;</span>";
+					pagingTag += "</li>";
+				} else {
+					pagingTag += "<li>";
+					pagingTag += "<a class='page-link' onclick='getPaging(" + (page + 1) + ")' aria-label='Next'>";
+					pagingTag += "<span aria-hidden='true'>&raquo;</span>";
+					pagingTag += "</a>";
+					pagingTag += "</li>";
+				}
+				
+				pagingTag += "</ul>";
+				pagingTag += "</div>";
+			
+			});
+			
+			
+			
+			/* 만든 태그를 해당 위치에 삽입 */
+			$(".commentList .pagingArea").html(pagingTag);
 			
 		},
 		error : function(){
@@ -69,7 +147,7 @@ function getNestedCommentList(position, parent){
 				tag += "&nbsp;";
 				tag += "<button class='btn btn-xs btn-primary' id='btnInsertModal' data-toggle='modal' data-target='#insertModal'>답글</button>";
 				tag += "</li>";
-				tag += "</div>"
+				tag += "</div>";
 				
 			});
 			
@@ -96,6 +174,7 @@ $(document).ready(function(){
 	
 	/* 초기 댓글 목록 select */
 	getAllList();
+	getPaging(1);
 	
 	/* 댓글 작성 버튼을 눌렀을 때의 이벤트 */
 	$("#btnWrite").click(function(){

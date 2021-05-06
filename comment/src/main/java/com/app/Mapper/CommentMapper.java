@@ -10,6 +10,9 @@ import com.app.Domain.Comment;
 @Mapper
 public interface CommentMapper {
 	
+	/* 기본 게시글 총 개수 검색 */
+	int getTotalCommentCnt();
+	
 	/* 기본 댓글 목록 검색 */
 	List<Comment> selectComment();
 	

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.app.Domain.Comment;
+import com.app.Domain.Paging;
 import com.app.Mapper.CommentMapper;
 
 /* 댓글 관련 Service */
@@ -14,6 +15,15 @@ public class CommentService {
 	
 	@Autowired
 	private CommentMapper commentMapper;
+	
+	/* 페이징 만드는 작업 */
+	public Paging getPaging(Paging page) {
+		
+		/* 기본 게시글 전체 수 */
+		int totalComment = commentMapper.getTotalCommentCnt();
+		
+		return new Paging(totalComment, page);
+	}
 	
 	/* 기본 댓글 목록 검색 */
 	public List<Comment> selectComment() {

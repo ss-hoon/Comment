@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.app.Domain.Comment;
+import com.app.Domain.Paging;
 import com.app.Service.CommentService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -33,16 +35,31 @@ public class CommentController {
 		log.info("location : ''");
 		return "main";
 	}
+	
+	/* 페이징 화면 출력 */
+	@RequestMapping("/paging")
+	@ResponseBody
+	public Paging paging(Paging page) {
+		log.info("location : '/paging'");
+		
+		Paging paging = commentService.getPaging(page);
+		log.info("paging : {}", paging);
+		
+		return paging;
+	}
 
 	/* 기본 댓글 목록 검색 */
 	@GetMapping("/select")
 	@ResponseBody
-	public List<Comment> selectComment() {
+	public List<Comment> selectComment(Paging page) {
 		log.info("location : '/select'");
 
+		Paging paging = commentService.getPaging(page);
+		log.info("paging : {}", paging);
+	
 		List<Comment> commentList = commentService.selectComment();
 		log.info("Comment : {}", commentList);
-
+		
 		return commentList;
 	}
 	
@@ -146,4 +163,5 @@ public class CommentController {
 
 		return response;
 	}
+	
 }
