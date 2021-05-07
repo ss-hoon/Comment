@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.app.Domain.Comment;
+import com.app.Domain.Paging;
 
 /* 댓글 관련 Mapper 인터페이스 */
 @Mapper
@@ -14,7 +15,7 @@ public interface CommentMapper {
 	int getTotalCommentCnt();
 	
 	/* 기본 댓글 목록 검색 */
-	List<Comment> selectComment();
+	List<Comment> selectComment(Paging paging);
 	
 	/* 대댓글 목록 검색 */
 	List<Comment> selectNestedComment(int parent);

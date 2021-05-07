@@ -26,8 +26,8 @@ public class CommentService {
 	}
 	
 	/* 기본 댓글 목록 검색 */
-	public List<Comment> selectComment() {
-		return commentMapper.selectComment();
+	public List<Comment> selectComment(Paging paging) {
+		return commentMapper.selectComment(paging);
 	}
 	
 	/* 대댓글 목록 검색 */

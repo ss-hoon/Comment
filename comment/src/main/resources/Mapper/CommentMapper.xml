@@ -16,15 +16,29 @@
    		</select>
    
    		<!-- 댓글 목록 검색 -->
-   		<select id="selectComment" parameterType="com.app.Domain.Comment" resultType="com.app.Domain.Comment">
+   		<select id="selectComment" parameterType="com.app.Domain.Paging" resultType="com.app.Domain.Comment">
    			SELECT
    				*
    			FROM
-   				COMMENT
-   			WHERE
-   				DEPTH = 0
-   			ORDER BY
-   				PARENT, COMMENT.ORDER;
+   				(
+   					SELECT
+		   				*
+		   			FROM
+		   				(
+		   					SELECT
+								@rownum := @rownum + 1 AS ROWNUM, A.*
+							FROM
+								comment A,
+								(SELECT @rownum := 0) B
+							WHERE
+								depth = 0
+		   				) INNER_TABLE
+					WHERE
+						ROWNUM &lt;= #{endNo}
+		   		) OUTER_TABLE
+		   	WHERE
+		   		ROWNUM &gt;= #{startNo}
+   		
    		</select>
    		
    		<select id="selectNestedComment" parameterType="int" resultType="com.app.Domain.Comment">

@@ -1,7 +1,14 @@
+/* 전역 변수 부분 */
+var curPage = 1; // 현재 페이지
+
 /* AJAX 통신 -> 댓글의 전체 목록 select + Paging */
-function getAllList(){
+function getAllList(page){
+
+	/* 페이징 버튼 처리 */
+	getPaging(page);
+
 	$.ajax({
-		url : "/select",
+		url : "/select?curPage=" + page,
 		type : "GET",
 		contentType : "application/json; charset=UTF-8",
 		dataType : "json",
@@ -41,6 +48,7 @@ function getAllList(){
 	});
 }
 
+/* 페이징 버튼 처리 */
 function getPaging(page){
 	$.ajax({
 		url : "/paging?curPage=" + page,
@@ -65,7 +73,7 @@ function getPaging(page){
 					pagingTag += "</li>";
 				} else {
 					pagingTag += "<li>";
-					pagingTag += "<a class='page-link' onclick='getPaging(" + (page - 1) + ")' aria-label='Previous'>";
+					pagingTag += "<a class='page-link' onclick='curPage--;getAllList(" + (page - 1) + ")' aria-label='Previous'>";
 					pagingTag += "<span aria-hidden='true'>&laquo;</span>";
 					pagingTag += "</a>";
 					pagingTag += "</li>";
@@ -81,9 +89,10 @@ function getPaging(page){
 						pagingTag += "<li class='page-item'>";						
 					}
 					
-					pagingTag += "<a class='page-link' onclick='getPaging("+ idx + ")'>" + idx;
+					pagingTag += "<a class='page-link' onclick='curPage=" + idx + ";getAllList("+ idx + ")'>" + idx;
 					pagingTag += "</a>";
 					pagingTag += "</li>";
+
 				}
 				
 				
@@ -95,7 +104,7 @@ function getPaging(page){
 					pagingTag += "</li>";
 				} else {
 					pagingTag += "<li>";
-					pagingTag += "<a class='page-link' onclick='getPaging(" + (page + 1) + ")' aria-label='Next'>";
+					pagingTag += "<a class='page-link' onclick='curPage++;getAllList(" + (page + 1) + ")' aria-label='Next'>";
 					pagingTag += "<span aria-hidden='true'>&raquo;</span>";
 					pagingTag += "</a>";
 					pagingTag += "</li>";
@@ -105,8 +114,6 @@ function getPaging(page){
 				pagingTag += "</div>";
 			
 			});
-			
-			
 			
 			/* 만든 태그를 해당 위치에 삽입 */
 			$(".commentList .pagingArea").html(pagingTag);
@@ -171,9 +178,9 @@ function emptyNestedCommentList(position){
 }
 
 $(document).ready(function(){
-	
+
 	/* 초기 댓글 목록 select */
-	getAllList();
+	getAllList(1);
 	getPaging(1);
 	
 	/* 댓글 작성 버튼을 눌렀을 때의 이벤트 */
@@ -201,7 +208,7 @@ $(document).ready(function(){
 			success : function(data){
 				if(data == 1){
 					alert("작성 성공");
-					getAllList();
+					getAllList(curPage);
 				} else {
 					alert("작성 실패");
 				}
@@ -270,7 +277,7 @@ $(document).ready(function(){
 				if(data == 1){
 					alert("수정 성공");
 					$("#modifyModal").modal("hide"); // Modal 닫기
-					getAllList();
+					getAllList(curPage);
 				} else {
 					alert("수정 실패");
 				}
@@ -293,7 +300,7 @@ $(document).ready(function(){
 			success : function(data){
 				if(data == 1){
 					alert("삭제 성공");
-					getAllList();
+					getAllList(curPage);
 					$("#modifyModal").modal("hide"); // Modal 닫기
 				} else {
 					alert("삭제 실패");
@@ -327,7 +334,7 @@ $(document).ready(function(){
 			success : function(data){
 				if(data == 1){
 					alert("작성 성공");
-					getAllList();
+					getAllList(curPage);
 					$("#insertModal").modal("hide"); // Modal 닫기
 					
 				} else {
