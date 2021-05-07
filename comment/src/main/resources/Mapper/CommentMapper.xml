@@ -53,6 +53,14 @@
 				COMMENT.ORDER;
    		</select>
    		
+   		<!-- 댓글 추가 전, 테이블 row들 중 parent의 최대값을 구함 -->
+   		<select id="getMaxParent" resultType="int">
+   			SELECT
+   				MAX(PARENT)
+   			FROM
+   				COMMENT
+   		</select>
+   		
    		<!-- 댓글 추가 -->
    		<insert id="insertComment">
    			INSERT
@@ -65,7 +73,7 @@
    				)
    			VALUES(
    				#{contents},
-   				LAST_INSERT_ID() + 1,
+   				#{parent},
    				#{userId},
    				now()
    			);

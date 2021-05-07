@@ -34,6 +34,11 @@ public class CommentService {
 	public List<Comment> selectNestedComment(int parent){
 		return commentMapper.selectNestedComment(parent);
 	}
+	
+	/* 댓글 추가 전, 테이블 row들 중 parent의 최대값을 구함 */
+	public int getMaxParent() {
+		return commentMapper.getMaxParent();
+	}
 
 	/* 댓글 추가 */
 	public int insertComment(Comment comment) {
