@@ -35,9 +35,14 @@ public class CommentService {
 		return commentMapper.selectNestedComment(parent);
 	}
 	
+	/* 댓글 추가 전, 테이블 row가 있는지 확인 */
+	public int existComment() {
+		return commentMapper.existComment();
+	}
+	
 	/* 댓글 추가 전, 테이블 row들 중 parent의 최대값을 구함 */
-	public int getMaxParent() {
-		return commentMapper.getMaxParent();
+	public int getMaxIdx() {
+		return commentMapper.getMaxIdx();
 	}
 
 	/* 댓글 추가 */

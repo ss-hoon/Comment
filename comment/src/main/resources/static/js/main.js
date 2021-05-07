@@ -64,7 +64,7 @@ function getPaging(page){
 				
 				pagingTag += "<div class='paging text-center'>";
 				pagingTag += "<ul class='pagination'>";
-				
+
 				/* << 버튼(앞 페이지 이동 버튼) */
 				/* 현재 페이지가 첫번째 페이지인 경우에는 버튼을 사용할 수 없도록 함 */
 				if(this.curPage <= 1) {
@@ -82,7 +82,7 @@ function getPaging(page){
 				/* 페이지 버튼 */
 				/* 해당 버튼이 현재 페이지인 경우에는 active 시켜 현재 어디 페이지인지 알 수 있도록 함 */
 				for(var idx = this.startPage; idx <= this.endPage; idx ++){
-					
+
 					if(idx == this.curPage){
 						pagingTag += "<li class='page-item active'>";
 					} else {

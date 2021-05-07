@@ -79,8 +79,13 @@ public class CommentController {
 	public int insertComment(@RequestBody Comment comment) {
 		log.info("location : '/insert'");
 
-		int getMaxParent = commentService.getMaxParent();
-		comment.setParent(getMaxParent + 1);
+		int flagExistComment = commentService.existComment();
+		if(flagExistComment == 1) {
+			int getMaxIdx = commentService.getMaxIdx();
+			comment.setParent(getMaxIdx + 1);
+		} else {
+			comment.setParent(1);
+		}
 		
 		/* insert에 성공하면 1 */
 		/* insert에 실패하면 0 */

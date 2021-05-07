@@ -53,10 +53,20 @@
 				COMMENT.ORDER;
    		</select>
    		
+   		<!-- 댓글 추가 전, 테이블 row가 있는지 확인 -->
+   		<select id="existComment" resultType="int">
+   			SELECT EXISTS (
+   				SELECT
+   					*
+   				FROM
+   					COMMENT
+   			)
+   		</select>
+   		
    		<!-- 댓글 추가 전, 테이블 row들 중 parent의 최대값을 구함 -->
-   		<select id="getMaxParent" resultType="int">
+   		<select id="getMaxIdx" resultType="int">
    			SELECT
-   				MAX(PARENT)
+   				MAX(IDX)
    			FROM
    				COMMENT
    		</select>

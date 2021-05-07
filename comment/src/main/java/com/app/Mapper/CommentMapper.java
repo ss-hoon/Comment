@@ -20,8 +20,11 @@ public interface CommentMapper {
 	/* 대댓글 목록 검색 */
 	List<Comment> selectNestedComment(int parent);
 	
+	/* 댓글 추가 전, 테이블 row가 있는지 확인 */
+	int existComment();
+	
 	/* 댓글 추가 전, 테이블 row들 중 parent의 최대값을 구함 */
-	int getMaxParent();
+	int getMaxIdx();
 	
 	/* 댓글 추가 */
 	int insertComment(Comment comment);
