@@ -35,7 +35,7 @@ Front-end 작업과 Back-end 작업 모두 직접 구현했습니다. <br>
 
 ## 화면 구성
 
- - 메인 화면(댓글 o)
+ - 메인 화면
 <p align="center">
     <img src="/images/dynamicMain.PNG" width = "600" height = "400"/>
 </p>
