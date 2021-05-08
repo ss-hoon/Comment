@@ -36,13 +36,13 @@ Front-end 작업과 Back-end 작업 모두 직접 구현했습니다. <br>
 ## 화면 구성
  - 메인 화면(댓글 x)
 <p align="center">
-    <img src="/images/mainBasic.PNG" width = "600" height = "400"/>
+    <img src="/images/basicMain.PNG" width = "600" height = "400"/>
 </p>
 
  <br>
  - 메인 화면(댓글 o)
 <p align="center">
-    <img src="/images/dynamicBasic.PNG" width = "600" height = "400"/>
+    <img src="/images/dynamicMain.PNG" width = "600" height = "400"/>
 </p>
 
 <br>
