@@ -21,7 +21,7 @@ Front-end 작업과 Back-end 작업 모두 직접 구현했습니다. <br>
  - Back-end
     - [Spring Boot](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle)
     - [JSTL](https://www.oracle.com/java/technologies/)
-    - [Java 8](https://docs.oracle.com/javase/8/docs/api/)
+    - [Java 15](https://docs.oracle.com/javase/15/docs/api/)
     - [myBatis](https://github.com/mybatis/mybatis-3)
     - [MySQL](https://dev.mysql.com/doc/refman/8.0/en/)
 
